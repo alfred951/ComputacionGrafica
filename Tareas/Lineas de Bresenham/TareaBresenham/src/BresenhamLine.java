@@ -75,7 +75,7 @@ public class BresenhamLine extends JPanel {
         
         //Pintar la funcion uno a uno
         
-        for(int i=-200;i<=200;i++){
+        for(int i=-300;i<=300;i++){
             startPoint.x = i;
             startPoint.y = evaluarFuncion(i);
             endPoint.x = i+1;
@@ -83,15 +83,15 @@ public class BresenhamLine extends JPanel {
             drawBresenhamLine3(g2d,startPoint,endPoint);
         }
 
-        //Pintar en rojo la funcion con saltos de 50 en 50
+        //Pintar en rojo la funcion con saltos de 5 en 5
         
         g2d.setColor(Color.red);
         
-        for(int i=-200;i<=200;i=i+50){
+        for(int i=-300;i<=300;i=i+5){
             startPoint.x = i;
             startPoint.y = evaluarFuncion(i);
-            endPoint.x = i+50;
-            endPoint.y = evaluarFuncion(i+50);
+            endPoint.x = i+200;
+            endPoint.y = evaluarFuncion(i+200);
             drawBresenhamLine3(g2d,startPoint,endPoint);
         }
         
@@ -100,8 +100,10 @@ public class BresenhamLine extends JPanel {
     public int evaluarFuncion(int x) {
         
         //TODO: Revisar funcion matematica f(x) = (x^2)/50
+        //Nueva funcion f(x) = ||x||
         
-        double result = Math.pow(x, 2)/50;
+        //double result = Math.pow(x, 2)/50;
+        int result = Math.abs(x);
         return (int) result;
 
     }
