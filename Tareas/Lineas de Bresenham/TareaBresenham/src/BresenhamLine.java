@@ -84,6 +84,7 @@ public class BresenhamLine extends JPanel {
         }
 
         //Pintar en rojo la funcion con saltos de 5 en 5
+        //Las lineas se hacen cada 200 puntos
         
         g2d.setColor(Color.red);
         
