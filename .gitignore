@@ -80,3 +80,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /Tareas/Lineas de Bresenham/TareaBresenham/build/
+/Tareas/Line Clipping/LineClipping/build/
