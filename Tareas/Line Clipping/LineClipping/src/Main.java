@@ -25,7 +25,6 @@ public class Main extends JPanel {
     PolygonObject po;
     PolygonObject pobox;
     PolygonObject clpo;
-    PolygonObject tempo;
     BoundaryBox box;
 
     /**
@@ -57,14 +56,8 @@ public class Main extends JPanel {
      * @param g2d Graphics2D context
      */
     private void drawObject(Graphics2D g2d) {
-        g2d.setColor(Color.green);
-        for(Edge e: po.edges) {
-            Point p0 = e.p1;
-            Point p1 = e.p2;
-            drawEdge(g2d, p0, p1);
-        }
         g2d.setColor(Color.red);
-        for(Edge e: tempo.edges) {
+        for(Edge e: po.edges) {
             Point p0 = e.p1;
             Point p1 = e.p2;
             drawEdge(g2d, p0, p1);
@@ -166,119 +159,76 @@ public class Main extends JPanel {
 
     private void clipLines() {
         clpo = new PolygonObject();
-        tempo = new PolygonObject();
-        float x1 = box.p1.x;
-        float y1 = box.p1.y;
-        float x2 = box.p2.x;
-        float y2 = box.p2.y;
-//        float xmin = box.p1.x;
-//        float ymin = box.p1.y;
-//        float xmax = box.p2.x;
-//        float ymax = box.p2.y;
+        
+        int xMin = box.p1.x;
+        int yMin = box.p1.y;
+        int xMax = box.p2.x;
+        int yMax = box.p2.y;
+        
         for(Edge e: po.edges) {
-            float xmin = e.p1.x;
-            float ymin = e.p1.y;
-            float xmax = e.p2.x;
-            float ymax = e.p2.y;
             
-//            float x1 = e.p1.x;
-//            float y1 = e.p1.y;
-//            float x2 = e.p2.x;
-//            float y2 = e.p2.y;
+            int x1 = e.p1.x;
+            int y1 = e.p1.y;
+            int x2 = e.p2.x;
+            int y2 = e.p2.y;
             
-            float p1 = -(x2-x1);
-            float p2 = -p1;
-            float p3 = -(y2 - y1);
-            float p4 = -p3;
+            int dx = (x2 - x1);
+            int dy = (y2 - y1);
             
-            float q1 = x1 - xmin;
-            float q2 = xmax - x1;
-            float q3 = y1 - ymin;
-            float q4 = ymax - y1;
+            int p1 = -dx;
+            int p2 = -p1;
+            int p3 = -dy;
+            int p4 = -p3;
+            
+            int p[] = {p1,p2,p3,p4};
+            
+            int q1 = x1 - xMin;
+            int q2 = xMax - x1;
+            int q3 = y1 - yMin;
+            int q4 = yMax - y1;
+            
+            int q[] = {q1,q2,q3,q4};
 
-            float[] posarr = new float[5];
-            float[] negarr = new float[5];
-            int posind = 1, negind = 1;
-            posarr[0] = 1;
-            negarr[0] = 0;
+            double u1 = 0;
+            double u2 = 1;
             
-            //po.edges.remove(e);
+            boolean out = false;
             
-            if ((p1 == 0 && q1 < 0) || (p3 == 0 && q3 < 0)) {
-                break;
+            for (int i = 0; i < 4; i++) {
+                if (p[i] == 0) {
+                    if (q[i] < 0) {
+                        out = true;
+                        break;
+                    }
+                } else {
+                    double u = (double) q[i] / p[i];
+                    if (p[i] < 0) {
+                        u1 = Math.max(u, u1);
+                    } else {
+                        u2 = Math.min(u, u2);
+                    }
+                }
             }
-            if (p1 != 0) {
-              float r1 = q1 / p1;
-              float r2 = q2 / p2;
-              if (p1 < 0) {
-                negarr[negind++] = r1; // for negative p1, add it to negative array
-                posarr[posind++] = r2; // and add p2 to positive array
-              } else {
-                negarr[negind++] = r2;
-                posarr[posind++] = r1;
-              }
+            
+            if (u1 > u2) {
+                out = true;
             }
-            if (p3 != 0) {
-              float r3 = q3 / p3;
-              float r4 = q4 / p4;
-              if (p3 < 0) {
-                negarr[negind++] = r3;
-                posarr[posind++] = r4;
-              } else {
-                negarr[negind++] = r4;
-                posarr[posind++] = r3;
-              }
-            }
+            
+            if(!out){
+                int nx1, ny1, nx2, ny2;
+                nx1 = (int) (x1 + u1 * dx);
+                ny1 = (int) (y1 + u1 * dy);
+                nx2 = (int) (x1 + u2 * dx);
+                ny2 = (int) (y1 + u2 * dy);
 
-            int xn1, yn1, xn2, yn2;
-            float rn1, rn2;
-            rn1 = maxi(negarr, negind); // maximum of negative array
-            rn2 = mini(posarr, posind); // minimum of positive array
+                Point ini = new Point(nx1, ny1);
+                Point fin = new Point(nx2, ny2);
 
-            xn1 = (int) (x1 + p2 * rn1);
-            yn1 = (int) (y1 + p4 * rn1); // computing new points
-            
-            xn2 = (int) (x1 + p2 * rn2);
-            yn2 = (int) (y1 + p4 * rn2);
-            
-            Point iniClipLine = new Point(xn1, yn1);
-            Point endClipLine = new Point(xn2, yn2);
-            
-            Edge edge = new Edge(iniClipLine, iniClipLine);
-            clpo.add(edge);
-            
-            Point iniLine = new Point((int)x1, (int)y1);
-            Point endLine = new Point(xn1, yn1);
-            
-            edge = new Edge(iniLine,endLine);
-            tempo.add(edge);
-            
-            iniLine = new Point((int)x2, (int)y2);
-            endLine = new Point(xn2, yn2);
-            
-            edge = new Edge(iniLine,endLine);
-            tempo.add(edge);
-            
+                Edge edge = new Edge(ini, fin);
+                clpo.add(edge);
+            }
         }
-    }
-    
-    // this function gives the maximum
-    public float maxi(float arr[],int n) {
-        float m = 0;
-        for (int i = 0; i < n; ++i)
-            if (m < arr[i])
-                m = arr[i];
-        return m;
-    }
-
-    // this function gives the minimum
-    public float mini(float arr[], int n) {
-        float m = 1;
-        for (int i = 0; i < n; ++i)
-            if (m > arr[i])
-                m = arr[i];
-        return m;
-    }
+    }   
     
     /**
      * Main program
