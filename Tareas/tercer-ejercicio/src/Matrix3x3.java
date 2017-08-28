@@ -7,7 +7,7 @@ public class Matrix3x3 {
 	}
 
 	public static Vector3 times(Matrix3x3 m, Vector3 n) {
-		Point point = new Point(0, 0, 0);
+		PointW point = new PointW(0, 0, 0);
 		Vector3 o = new Vector3(point);
 		o.point.x = (m.matrix[1][1] * n.point.x) + (m.matrix[1][2] * n.point.y) + (m.matrix[1][3] * n.point.w);
 		o.point.y = (m.matrix[2][1] * n.point.x) + (m.matrix[2][2] * n.point.y) + (m.matrix[2][3] * n.point.w);

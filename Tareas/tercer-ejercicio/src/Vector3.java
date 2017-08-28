@@ -1,14 +1,14 @@
 public class Vector3 {
 	
-    Point point;
+    PointW point;
 	double magnitude;
 	
-	public Vector3(Point point) {
+	public Vector3(PointW point) {
 		this.point = point;
 	}
 	
 	public static Vector3 crossProduct(Vector3 v, Vector3 u) {
-		Point point = new Point(0, 0, 0);
+		PointW point = new PointW(0, 0, 0);
 		Vector3 result = new Vector3(point);
 		result.point.x = (v.point.y * u.point.w) + (u.point.y * v.point.w);
 		result.point.y = - (v.point.x * u.point.w) + (u.point.x * v.point.w);

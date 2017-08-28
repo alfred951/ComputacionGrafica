@@ -5,21 +5,22 @@
  */
 
 /**
- * Keeps the information of a 2D point
+ * Keeps the information of an Edge
  * @author htrefftz
  */
-public class Point {
-    int x;
-    int y;
+public class Edge {
+    Point p1;
+    Point p2;
 
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Edge(Point p1, Point p2) {
+        this.p1 = p1;
+        this.p2 = p2;
     }
 
     @Override
     public String toString() {
-        return "Point{" + "x=" + x + ", y=" + y + '}';
+        return "Edge{" + "p1=" + p1 + ", p2=" + p2 + '}';
     }
+    
     
 }
