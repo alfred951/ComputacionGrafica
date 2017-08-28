@@ -1,5 +1,7 @@
 /Edge.class
 /Main.class
-/PolygonObject.class
-/PointW.class
+/Matrix3x3.class
 /Point.class
+/PointW.class
+/PolygonObject.class
+/Vector3.class

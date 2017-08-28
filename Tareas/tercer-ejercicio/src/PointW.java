@@ -34,4 +34,11 @@ public class PointW {
 		this.y = y;
 	}
 	
+	public Point pointWToPoint() {
+		double nx = x / w;
+		double ny = y / w;
+		Point p = new Point( (int) nx, (int) ny);
+		return p;
+	}
+	
 }

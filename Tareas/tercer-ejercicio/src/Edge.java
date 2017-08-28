@@ -20,7 +20,6 @@ public class Edge {
     @Override
     public String toString() {
         return "Edge{" + "p1=" + p1 + ", p2=" + p2 + '}';
-    }
-    
+    } 
     
 }

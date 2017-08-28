@@ -35,4 +35,8 @@ public class Vector3 {
 		point.w = point.w / magnitude;
 	}
 	
+	public void printVector() {
+		System.out.println("//////////////////////////////");
+		System.out.println("x: " + point.x + " y: " + point.y + " w: " + point.w);
+	}
 }

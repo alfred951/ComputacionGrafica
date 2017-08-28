@@ -22,4 +22,8 @@ public class Point {
         return "Point{" + "x=" + x + ", y=" + y + '}';
     }
     
+    public Vector3 pointToVector() {
+    	Vector3 v3 = new Vector3(new PointW(x, y, 1));
+    	return v3;
+    }
 }

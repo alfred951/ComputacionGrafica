@@ -158,30 +158,57 @@ public class Main extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int tecla = e.getKeyCode();
+    	int tecla = e.getKeyCode();
+    	double[][] m3 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    	Matrix3x3 matrixObject = new Matrix3x3(m3); 
         if(tecla == KeyEvent.VK_D) {
-            System.out.println("El usuario presiona d");
+            matrixObject.matrix[0][2] = 1;
+            matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_A) {
-            System.out.println("El usuario presiona a");
+        	matrixObject.matrix[0][2] = -1;
+        	matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_W) {
-            System.out.println("El usuario presiona w");
+        	matrixObject.matrix[1][2] = 1;
+        	matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_S) {
-            System.out.println("El usuario presiona s");
+        	matrixObject.matrix[1][2] = -1;
+        	matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_Z) {
-            System.out.println("El usuario presiona z");
+        	matrixObject.matrix[0][0] = 1.01;
+        	matrixObject.matrix[1][1] = 1.01;
+        	matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_X) {
-            System.out.println("El usuario presiona x");
+        	matrixObject.matrix[0][0] = 0.99;
+        	matrixObject.matrix[1][1] = 0.99;
+        	matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_O) {
-            System.out.println("El usuario presiona o");
+        	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(1));
+        	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(1));
+        	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(1));
+        	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(1));
+        	matrixObject.printMatrix();
         } else if (tecla == KeyEvent.VK_L) {
-            System.out.println("El usuario presiona l");
+        	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(-1));
+        	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(-1));
+        	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(-1));
+        	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(-1));	
+        }
+        
+        for(Edge edge: po.edges) {
+        	Vector3 v1 = edge.p1.pointToVector();
+        	Vector3 v2 = edge.p2.pointToVector();
+        	v1 = matrixObject.times(v1);
+        	v2 = matrixObject.times(v2);
+        	edge.p1 = v1.point.pointWToPoint();
+        	edge.p2 = v2.point.pointWToPoint();
         }
         
         repaint();
     }
-
+    
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
     
     

@@ -6,12 +6,12 @@ public class Matrix3x3 {
 		this.matrix = matrix;
 	}
 
-	public static Vector3 times(Matrix3x3 m, Vector3 n) {
+	public Vector3 times(Vector3 n) {
 		PointW point = new PointW(0, 0, 0);
 		Vector3 o = new Vector3(point);
-		o.point.x = (m.matrix[1][1] * n.point.x) + (m.matrix[1][2] * n.point.y) + (m.matrix[1][3] * n.point.w);
-		o.point.y = (m.matrix[2][1] * n.point.x) + (m.matrix[2][2] * n.point.y) + (m.matrix[2][3] * n.point.w);
-		o.point.w = (m.matrix[3][1] * n.point.x) + (m.matrix[3][2] * n.point.y) + (m.matrix[3][3] * n.point.w);
+		o.point.x = (matrix[0][0] * n.point.x) + (matrix[0][1] * n.point.y) + (matrix[0][2] * n.point.w);
+		o.point.y = (matrix[1][0] * n.point.x) + (matrix[1][1] * n.point.y) + (matrix[1][2] * n.point.w);
+		o.point.w = (matrix[2][0] * n.point.x) + (matrix[2][1] * n.point.y) + (matrix[2][2] * n.point.w);
 		return o;
 	}
 	
@@ -26,6 +26,16 @@ public class Matrix3x3 {
 			}
 		}
 		return o;
+	}
+	
+	public void printMatrix() {
+		System.out.println("--------------------");
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++) {
+				System.out.print(matrix[i][j] + "  ");
+			}
+			System.out.println("");
+		}
 	}
 	
 }
