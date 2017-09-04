@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="ComputacionGrafica/DibujarAristas/src"/>
+	<classpathentry kind="src" path="ComputacionGrafica/Tareas/Lineas de Bresenham/TareaBresenham/src"/>
+	<classpathentry kind="src" path="ComputacionGrafica/Tareas/Lineas de Bresenham/TrabajoBresenham/src"/>
+	<classpathentry kind="src" path="Ejercicios de clase"/>
+	<classpathentry kind="output" path="ComputacionGrafica/DibujarAristas/build/classes"/>
+</classpath>
