@@ -13,10 +13,12 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import Math.Escalation;
 import Math.Matrix4x4;
 import Math.Vector4;
 import Math.Projection;
 import Math.Translation;
+import Math.Rotation;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -126,12 +128,12 @@ public class DibujarCasita3D extends JPanel implements KeyListener {
         // distance from the origin to the projection plane
         // Apply the projection using method transformObject in PolygonObject
         // The input object is transformedObject
-        // The outout object is also transformedObject
-        // The transformation to be applyed is the projection matrix
+        // The output object is also transformedObject
+        // The transformation to be applied is the projection matrix
         // just created
-        Projection proj = new Projection(-500);
-        currentTransformation = Matrix4x4.times(currentTransformation, proj);
-        transformedObject = PolygonObject.transformObject(po, currentTransformation);
+    	//Projection proj = new Projection(-500);
+    	//currentTransformation = Matrix4x4.times(currentTransformation, proj);
+    	//transformedObject = PolygonObject.transformObject(po, currentTransformation);
     }
 
     /**
@@ -215,9 +217,35 @@ public class DibujarCasita3D extends JPanel implements KeyListener {
       } else if(ke.getKeyCode() == KeyEvent.VK_S) { // Down
         Translation trans = new Translation(0, -10, 0);
         currentTransformation = Matrix4x4.times(currentTransformation, trans);
+      } else if(ke.getKeyCode() == KeyEvent.VK_I) { // Rotation x
+    	  Rotation rotation = new Rotation('x', Math.toRadians(10));
+          currentTransformation = Matrix4x4.times(currentTransformation, rotation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_O) { // Rotation -x
+    	  Rotation rotation = new Rotation('x', Math.toRadians(-10));
+          currentTransformation = Matrix4x4.times(currentTransformation, rotation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_J) { // Rotation y
+    	  Rotation rotation = new Rotation('y', Math.toRadians(10));
+          currentTransformation = Matrix4x4.times(currentTransformation, rotation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_K) { // Rotation -y
+    	  Rotation rotation = new Rotation('y', Math.toRadians(-10));
+          currentTransformation = Matrix4x4.times(currentTransformation, rotation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_N) { // Rotation z
+    	  Rotation rotation = new Rotation('z', Math.toRadians(10));
+          currentTransformation = Matrix4x4.times(currentTransformation, rotation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_M) { // Rotation -z
+    	  Rotation rotation = new Rotation('z', Math.toRadians(10));
+          currentTransformation = Matrix4x4.times(currentTransformation, rotation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_Z) { // Escalation Up
+    	  Escalation escalation = new Escalation(2, 2, 2);
+          currentTransformation = Matrix4x4.times(currentTransformation, escalation);
+      } else if(ke.getKeyCode() == KeyEvent.VK_X) { // Escalation Down
+    	  Escalation escalation = new Escalation(0.5, 0.5, 0.5);
+          currentTransformation = Matrix4x4.times(currentTransformation, escalation);
       } else if(ke.getKeyCode() == KeyEvent.VK_R) { // Reset
         currentTransformation = new Matrix4x4();
       }
+      
+      repaint();
   } 
   
     @Override
