@@ -77,6 +77,7 @@ public class Vector4 {
      * @param v1 first vector
      * @param v2 second vector
      * @return v1 - v2
+     * @param v2 second vector
      */
     public static Vector4 subtract(Vector4 v1, Vector4 v2) {
         double x = v1.getX() - v2.getX();

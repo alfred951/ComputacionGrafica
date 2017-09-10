@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/helmuthtrefftz/Google%20Drive/EafitSync/Eafit/ST0275/20172/EjemplosNetBeans/Objeto3DCamaraArbitraria/src/Geometry/DibujarCasita3D.java</file>
-            <file>file:/Users/helmuthtrefftz/Google%20Drive/EafitSync/Eafit/ST0275/20172/EjemplosNetBeans/Objeto3DCamaraArbitraria/src/Math/Uvn.java</file>
+            <file>file:/C:/Users/usuario/Documents/GitHub/ComputacionGrafica/Tareas/Perspective%20Transformation/Objeto3DCamaraArbitraria/src/Geometry/DibujarCasita3D.java</file>
+            <file>file:/C:/Users/usuario/Documents/GitHub/ComputacionGrafica/Tareas/Perspective%20Transformation/Objeto3DCamaraArbitraria/src/Math/Matrix4x4.java</file>
+            <file>file:/C:/Users/usuario/Documents/GitHub/ComputacionGrafica/Tareas/Perspective%20Transformation/Objeto3DCamaraArbitraria/src/Math/Uvn.java</file>
+            <file>file:/C:/Users/usuario/Documents/GitHub/ComputacionGrafica/Tareas/Perspective%20Transformation/Objeto3DCamaraArbitraria/src/Math/Projection.java</file>
+            <file>file:/C:/Users/usuario/Documents/GitHub/ComputacionGrafica/Tareas/Perspective%20Transformation/Objeto3DCamaraArbitraria/src/Math/Translation.java</file>
+            <file>file:/C:/Users/usuario/Documents/GitHub/ComputacionGrafica/Tareas/Perspective%20Transformation/Objeto3DCamaraArbitraria/src/Math/Vector4.java</file>
         </group>
     </open-files>
 </project-private>
