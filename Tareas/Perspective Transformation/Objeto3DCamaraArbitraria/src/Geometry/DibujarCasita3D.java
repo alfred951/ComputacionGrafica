@@ -77,13 +77,13 @@ public class DibujarCasita3D extends JPanel implements KeyListener {
      */
     double theta = 0;
     double phi = 0;
-    double radius = 500;
+    double radius = 0;
     
     /**
      * Increments
      */
-    public static final double THETA_INCREMENT = Math.PI / 18d;
-    public static final double PHI_INCREMENT = Math.PI / 18d;
+    public static final double THETA_INCREMENT = Math.PI / 36d;
+    public static final double PHI_INCREMENT = Math.PI / 36d;
     
     /**
      * This method draws the object.
@@ -261,9 +261,12 @@ public class DibujarCasita3D extends JPanel implements KeyListener {
      * Compute the middle of the object
      */
     private void computeCenter() {
-        centerX = (minX + maxX) / 2;
-        centerY = (minY + maxY) / 2;
-        centerZ = (minZ + maxZ) / 2;
+        //centerX = (minX + maxX) / 2;
+        //centerY = (minY + maxY) / 2;
+        //centerZ = (minZ + maxZ) / 2;
+        centerX = 0;
+        centerY = 0;
+        centerZ = 0;
     }
     
     @Override
@@ -289,18 +292,16 @@ public class DibujarCasita3D extends JPanel implements KeyListener {
         currentTransformation = Matrix4x4.times(currentTransformation, trans);
       } else if(ke.getKeyCode() == KeyEvent.VK_R) { // Reset
         currentTransformation = new Matrix4x4();
-      } else if(ke.getKeyCode() == KeyEvent.VK_J) { // change longitude
-        theta -= THETA_INCREMENT;
-        if(theta <= - Math.PI) theta = - Math.PI;
-      } else if(ke.getKeyCode() == KeyEvent.VK_L) { // change longitude
+      } else if(ke.getKeyCode() == KeyEvent.VK_LEFT) { // change longitude
         theta += THETA_INCREMENT;
+        if(theta <= - Math.PI) theta = - Math.PI;
+      } else if(ke.getKeyCode() == KeyEvent.VK_RIGHT) { // change longitude
+        theta -= THETA_INCREMENT;
         if(theta >= Math.PI) theta = Math.PI;
-      } else if(ke.getKeyCode() == KeyEvent.VK_I) { // change latitude
-        phi += PHI_INCREMENT;
-        if(phi >= Math.PI / 2) phi =  Math.PI / 2 - PHI_INCREMENT;
-      } else if(ke.getKeyCode() == KeyEvent.VK_K) { // change latitude
-        phi -= PHI_INCREMENT;
-        if(phi <= - Math.PI / 2) phi = - Math.PI / 2 + PHI_INCREMENT;
+      } else if(ke.getKeyCode() == KeyEvent.VK_UP) { // change latitude
+        radius -= 50;
+      } else if(ke.getKeyCode() == KeyEvent.VK_DOWN) { // change latitude
+        radius += 50;
       }
   } 
   
