@@ -30,8 +30,6 @@ public class Main extends JPanel implements KeyListener {
     int maxX;
     int maxY;
     
-    boolean DEBUG = true;
-    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -66,10 +64,6 @@ public class Main extends JPanel implements KeyListener {
         drawEdge(g2d, p3, p0);
     }
     
-    /**
-     * Draw the wire-frame object
-     * @param g2d Graphics2D context
-     */
     private void drawObject(Graphics2D g2d) {
         g2d.setColor(Color.blue);
         for(Edge e: po.edges) {
@@ -141,10 +135,6 @@ public class Main extends JPanel implements KeyListener {
     
     @Override
     public void keyPressed(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
     	int tecla = e.getKeyCode();
     	double[][] m3 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     	Matrix3x3 matrixObject = new Matrix3x3(m3); 
@@ -193,33 +183,27 @@ public class Main extends JPanel implements KeyListener {
         repaint();
     }
     
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-    
-    
-    
-    
-    /**
-     * Main program
-    */
     public static void main(String[] args) {
         Main m = new Main();
-        // Read the file with the object description
         m.readObjectDescription("objeto.txt");
-        // Create a new Frame
-        JFrame frame = new JFrame("Wire Frame Object");
-        // Upon closing the frame, the application ends
+        JFrame frame = new JFrame("Shooter Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Add a panel called DibujarCasita3D
         frame.add(m);
-        // Asignarle tamaño
         frame.setSize(Main.FRAME_WIDTH, Main.FRAME_HEIGHT);
-        // Put the frame in the middle of the window
         frame.setLocationRelativeTo(null);
-        // Show the frame
         frame.setVisible(true);
     }
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
