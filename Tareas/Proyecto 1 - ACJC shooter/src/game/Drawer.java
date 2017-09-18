@@ -12,31 +12,7 @@ public class Drawer {
 	public static final int FRAME_WIDTH = 800;
     public static final int FRAME_HEIGHT = 800;
     
-    int minX;
-    int minY;
-    int maxX;
-    int maxY;
-    
     public PolygonObject po;
-
-	public void drawAxis(Graphics2D g2d) {
-        g2d.setColor(Color.red);
-        drawEdge(g2d,new Point(0, -100), new Point(0, 100));
-        g2d.setColor(Color.green);
-        drawEdge(g2d,new Point(-100, 0), new Point(100, 0));
-    }
-    
-    public void drawClippingArea(Graphics2D g2d) {
-        g2d.setColor(Color.BLACK);
-        Point p0 = new Point(minX, minY);
-        Point p1 = new Point(maxX, minY);
-        Point p2 = new Point(maxX, maxY);
-        Point p3 = new Point(minX, maxY);
-        drawEdge(g2d, p0, p1);
-        drawEdge(g2d, p1, p2);
-        drawEdge(g2d, p2, p3);
-        drawEdge(g2d, p3, p0);
-    }
     
     public void drawObject(Graphics2D g2d) {
         g2d.setColor(Color.blue);

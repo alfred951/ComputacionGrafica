@@ -19,7 +19,6 @@ import utils.PolygonObject;
 public class Painter extends JPanel implements KeyListener {
 	
 	private static final long serialVersionUID = 1L;
-	
 	Drawer drawer;
 	
 	public Painter() {
@@ -35,9 +34,7 @@ public class Painter extends JPanel implements KeyListener {
         this.addKeyListener(this);
 
         Graphics2D g2d = (Graphics2D) g;
-        drawer.drawAxis(g2d);
         drawer.drawObject(g2d);
-        drawer.drawClippingArea(g2d);
     }
     
     public void readObjectDescription(String fileName) {
@@ -59,10 +56,6 @@ public class Painter extends JPanel implements KeyListener {
                 Edge edge = new Edge(vertexArray[start], vertexArray[end]);
                 drawer.po.addEdge(edge);
             }
-            drawer.minX = in.nextInt();
-            drawer.minY = in.nextInt();
-            drawer.maxX = in.nextInt();
-            drawer.maxY = in.nextInt();
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
