@@ -23,8 +23,7 @@ public class PolygonObject {
         }
     }
     
-    public static PolygonObject transformObject(PolygonObject po, 
-            Matrix3x3 transformation) {
+    public static PolygonObject transformObject(PolygonObject po, Matrix3x3 transformation) {
         
         PolygonObject newObject = new PolygonObject();
         for(Edge e: po.edges) {
@@ -35,4 +34,5 @@ public class PolygonObject {
         }
         return newObject;
     }
+    
 }
