@@ -114,21 +114,4 @@ public class Matrix4x4 {
         }
         return retString;
     }
-    
-    public static void main(String [] args) {
-        // Test multiplication
-        System.out.println("Matrix-Vector multiplication");
-        Matrix4x4 m1 = new Matrix4x4();
-        Vector4 v1 = new Vector4();
-        Vector4 v2 = Matrix4x4.times(m1, v1);
-        System.out.println(v2);
-        
-        // Test Translation
-        /*
-        System.out.println("Translation");
-        Translation t1 = new Translation(10d, 20d, 30d);
-        Translation t2 = new Translation(-10d, -20d, -30d);
-        System.out.println(Matrix4x4.times(t1, t2));
-        */
-    }
 }
