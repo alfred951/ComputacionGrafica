@@ -35,4 +35,34 @@ public class PolygonObject {
         return newObject;
     }
     
+    public double getXCenter() {
+    	double max = Double.NEGATIVE_INFINITY;
+    	double min = Double.POSITIVE_INFINITY;
+    	for(Edge e: edges) {
+    		if(e.p1.x > max) max = e.p1.x;
+    		if(e.p1.x < min) min = e.p1.x;
+    		if(e.p2.x > max) max = e.p2.x;
+    		if(e.p2.x < min) min = e.p2.x;
+    	}
+    	
+    	double xCenter = (max + min) / 2;
+    	
+    	return xCenter;
+    }
+    
+    public double getYCenter() {
+    	double max = Double.NEGATIVE_INFINITY;
+    	double min = Double.POSITIVE_INFINITY;
+    	for(Edge e: edges) {
+    		if(e.p1.y > max) max = e.p1.y;
+    		if(e.p1.y < min) min = e.p1.y;
+    		if(e.p2.y > max) max = e.p2.y;
+    		if(e.p2.y < min) min = e.p2.y;
+    	}
+    	
+    	double yCenter = (max + min) / 2;
+    	
+    	return yCenter;
+    }
+    
 }

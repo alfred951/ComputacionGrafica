@@ -51,4 +51,17 @@ public class Matrix3x3 {
 		}
 	}
 	
+	public void setMatrix() {
+		for(int i=0; i<3; i++) {
+			for(int j=0; j<3; j++) {
+				if (i == j) {
+					this.matrix[i][j] = 1;
+				}
+				else {
+					this.matrix[i][j] = 0;
+				}
+			}
+		}
+	}
+	
 }
