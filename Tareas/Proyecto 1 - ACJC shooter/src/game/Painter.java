@@ -5,14 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JPanel;
 
+import game.objects.Map;
 import math.Escalation;
 import math.Matrix3x3;
 import math.Rotation;
@@ -29,9 +27,12 @@ public class Painter extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private final Set<Integer> pressed = new HashSet<>();
 	private PolygonObject po;
+	private PolygonObject map;
 	
 	public Painter() {
         this.addKeyListener(this);
+        po = new RedPlayer().po;
+        map = new Map().po;
 	}
     
     @Override
@@ -40,32 +41,8 @@ public class Painter extends JPanel implements KeyListener {
         this.setFocusable(true);
         this.requestFocusInWindow();
         Graphics2D g2d = (Graphics2D) g;
-        drawObject(g2d, po);
-    }
-    
-    public void readObjectDescription(String fileName) {
-        Scanner in;
-        po = new PolygonObject();
-        try {
-            in = new Scanner(new File(fileName));
-            int numVertices = in.nextInt();
-            Point[] vertexArray = new Point[numVertices];           
-            for (int i = 0; i < numVertices; i++) {                
-                int x = in.nextInt();
-                int y = in.nextInt();
-                vertexArray[i] = new Point(x, y);
-            }
-            int numEdges = in.nextInt();
-            for (int i = 0; i < numEdges; i++) {
-                int start = in.nextInt();
-                int end = in.nextInt();
-                Edge edge = new Edge(vertexArray[start], vertexArray[end]);
-                po.addEdge(edge);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        }
-
+        drawObject(g2d,po,Color.red);
+        drawObject(g2d,map,Color.black);
     }
     
     @Override
@@ -146,8 +123,8 @@ public class Painter extends JPanel implements KeyListener {
         }
 	}
 	
-    public void drawObject(Graphics2D g2d, PolygonObject po) {
-        g2d.setColor(Color.blue);
+    public void drawObject(Graphics2D g2d, PolygonObject po, Color color) {
+        g2d.setColor(color);
         for(Edge e: po.edges) {
             Point p1 = e.p1;
             Point p2 = e.p2;
