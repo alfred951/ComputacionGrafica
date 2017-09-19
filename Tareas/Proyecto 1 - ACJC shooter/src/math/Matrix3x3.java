@@ -8,6 +8,13 @@ public class Matrix3x3 {
 	public Matrix3x3(double[][] matrix) {
 		this.matrix = matrix;
 	}
+	
+	public Matrix3x3() {
+		matrix = new double [4][4];
+        for(int i = 0; i < 4; i++) {
+        	matrix[i][i] = 1d;
+        }
+	}
 
 	public Vector3 times(Vector3 n) {
 		Point point = new Point(0, 0);
