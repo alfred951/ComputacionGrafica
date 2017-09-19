@@ -19,6 +19,7 @@ public class Point {
     
     public Vector3 pointToVector() {
     	Vector3 v3 = new Vector3(this);
+    	v3.point.w = 1;
     	return v3;
     }
 }

@@ -23,6 +23,7 @@ public class Painter extends JPanel implements KeyListener {
 	
 	public Painter() {
 		this.drawer = new Drawer();
+        this.addKeyListener(this);
 	}
     
     @Override
@@ -30,9 +31,6 @@ public class Painter extends JPanel implements KeyListener {
         super.paintComponent(g);
         this.setFocusable(true);
         this.requestFocusInWindow();
-
-        this.addKeyListener(this);
-
         Graphics2D g2d = (Graphics2D) g;
         drawer.drawObject(g2d);
     }
@@ -68,36 +66,29 @@ public class Painter extends JPanel implements KeyListener {
     	double[][] m3 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     	Matrix3x3 matrixObject = new Matrix3x3(m3); 
         if(tecla == KeyEvent.VK_D) {
-            matrixObject.matrix[0][2] = 1;
-            matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_A) {
-        	matrixObject.matrix[0][2] = -1;
-        	matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_W) {
-        	matrixObject.matrix[1][2] = 1;
-        	matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_S) {
-        	matrixObject.matrix[1][2] = -1;
-        	matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_Z) {
-        	matrixObject.matrix[0][0] = 1.001;
-        	matrixObject.matrix[1][1] = 1.001;
-        	matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_X) {
-        	matrixObject.matrix[0][0] = 0.999;
-        	matrixObject.matrix[1][1] = 0.999;
-        	matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_O) {
-        	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(0.1));
-        	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(0.1));
-        	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(0.1));
-        	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(0.1));
-        	matrixObject.printMatrix();
-        } else if (tecla == KeyEvent.VK_L) {
-        	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(-0.1));
-        	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(-0.1));
-        	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(-0.1));
-        	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(-0.1));	
+            matrixObject.matrix[0][2] = 5;
+        } if (tecla == KeyEvent.VK_A) {
+        	matrixObject.matrix[0][2] = -5;
+        }  if (tecla == KeyEvent.VK_W) {
+        	matrixObject.matrix[1][2] = 5;
+        }  if (tecla == KeyEvent.VK_S) {
+        	matrixObject.matrix[1][2] = -5;
+        }  if (tecla == KeyEvent.VK_Z) {
+        	matrixObject.matrix[0][0] = 1.01;
+        	matrixObject.matrix[1][1] = 1.01;
+        }  if (tecla == KeyEvent.VK_X) {
+        	matrixObject.matrix[0][0] = 0.99;
+        	matrixObject.matrix[1][1] = 0.99;
+        }  if (tecla == KeyEvent.VK_O) {
+        	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(90));
+        	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(90));
+        	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(90));
+        	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(90));
+        }  if (tecla == KeyEvent.VK_L) {
+        	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(-90));
+        	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(-90));
+        	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(-90));
+        	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(-90));	
         }
         
         for(Edge edge: drawer.po.edges) {
@@ -108,7 +99,6 @@ public class Painter extends JPanel implements KeyListener {
         	edge.p1 = v1.point;
         	edge.p2 = v2.point;
         }
-        
         repaint();
     }	
 	
@@ -118,5 +108,9 @@ public class Painter extends JPanel implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+	}
+	
+	public void applyProjection() {
+		
 	}
 }

@@ -13,13 +13,14 @@ public class Drawer {
     public static final int FRAME_HEIGHT = 800;
     
     public PolygonObject po;
+    public int contador = 0;
     
     public void drawObject(Graphics2D g2d) {
         g2d.setColor(Color.blue);
         for(Edge e: po.edges) {
-            Point p0 = e.p1;
-            Point p1 = e.p2;
-            drawEdge(g2d, p0, p1);
+            Point p1 = e.p1;
+            Point p2 = e.p2;
+            drawEdge(g2d, p1, p2);
         }
     }
     

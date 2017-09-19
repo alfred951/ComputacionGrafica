@@ -12,7 +12,6 @@ public class Main extends JPanel {
     public static void main(String[] args) {
         Painter painter = new Painter();
         painter.readObjectDescription("objeto.txt");
-      
         JFrame frame = new JFrame("Shooter Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(painter);
