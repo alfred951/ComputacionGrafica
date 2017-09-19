@@ -22,7 +22,8 @@ public class Painter extends JPanel implements KeyListener {
 	
 	private static final long serialVersionUID = 1L;
 	private final Set<Integer> pressed = new HashSet<>();
-	Drawer drawer;
+	private Drawer drawer;
+	private PolygonObject po;
 	
 	public Painter() {
 		this.drawer = new Drawer();
@@ -35,12 +36,12 @@ public class Painter extends JPanel implements KeyListener {
         this.setFocusable(true);
         this.requestFocusInWindow();
         Graphics2D g2d = (Graphics2D) g;
-        drawer.drawObject(g2d);
+        drawer.drawObject(g2d, po);
     }
     
     public void readObjectDescription(String fileName) {
         Scanner in;
-        drawer.po = new PolygonObject();
+        po = new PolygonObject();
         try {
             in = new Scanner(new File(fileName));
             int numVertices = in.nextInt();
@@ -55,7 +56,7 @@ public class Painter extends JPanel implements KeyListener {
                 int start = in.nextInt();
                 int end = in.nextInt();
                 Edge edge = new Edge(vertexArray[start], vertexArray[end]);
-                drawer.po.addEdge(edge);
+                po.addEdge(edge);
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -84,8 +85,8 @@ public class Painter extends JPanel implements KeyListener {
             	matrixObject.matrix[0][0] = 0.99;
             	matrixObject.matrix[1][1] = 0.99;
             }if (tecla == KeyEvent.VK_O) {
-            	double tempX = drawer.po.getXCenter();
-            	double tempY = drawer.po.getYCenter();
+            	double tempX = po.getXCenter();
+            	double tempY = po.getYCenter();
             	matrixObject.matrix[0][2] = -tempX;         
             	matrixObject.matrix[1][2] = -tempY;
             	applyProjection(matrixObject);
@@ -103,11 +104,7 @@ public class Painter extends JPanel implements KeyListener {
             	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(-90));
             	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(-90));
             	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(-90));	
-            }if (tecla == KeyEvent.VK_C) {
-               	matrixObject.matrix[0][2] = -drawer.po.getXCenter();         
-            	matrixObject.matrix[1][2] = -drawer.po.getYCenter();
             }
-            
         	applyProjection(matrixObject);
     	}
         
@@ -124,7 +121,7 @@ public class Painter extends JPanel implements KeyListener {
 	}
 	
 	public void applyProjection(Matrix3x3 matrixObject) {
-        for(Edge edge: drawer.po.edges) {
+        for(Edge edge: po.edges) {
         	Vector3 v1 = edge.p1.pointToVector();
         	Vector3 v2 = edge.p2.pointToVector();
         	v1 = matrixObject.times(v1);

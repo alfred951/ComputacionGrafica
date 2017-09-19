@@ -12,9 +12,7 @@ public class Drawer {
 	public static final int FRAME_WIDTH = 800;
     public static final int FRAME_HEIGHT = 800;
     
-    public PolygonObject po;
-    
-    public void drawObject(Graphics2D g2d) {
+    public void drawObject(Graphics2D g2d, PolygonObject po) {
         g2d.setColor(Color.blue);
         for(Edge e: po.edges) {
             Point p1 = e.p1;
