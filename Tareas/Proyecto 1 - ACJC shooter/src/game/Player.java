@@ -1,5 +1,6 @@
 package game;
 
+import game.objects.PlayerModel;
 import utils.PolygonObject;
 
 public class Player {
@@ -7,9 +8,9 @@ public class Player {
 	public PolygonObject po;
 	int health;
 	
-	public Player(PolygonObject po) {
+	public Player() {
 		super();
-		this.po = po;
+		this.po = new PlayerModel().model;
 		this.health = 100;
 	}
 	
