@@ -67,24 +67,24 @@ public class Painter extends JPanel implements KeyListener {
     	Matrix3x3 matrixObject = new Matrix3x3(m3); 
         if(tecla == KeyEvent.VK_D) {
             matrixObject.matrix[0][2] = 5;
-        } if (tecla == KeyEvent.VK_A) {
+        }if (tecla == KeyEvent.VK_A) {
         	matrixObject.matrix[0][2] = -5;
-        }  if (tecla == KeyEvent.VK_W) {
+        }if (tecla == KeyEvent.VK_W) {
         	matrixObject.matrix[1][2] = 5;
-        }  if (tecla == KeyEvent.VK_S) {
+        }if (tecla == KeyEvent.VK_S) {
         	matrixObject.matrix[1][2] = -5;
-        }  if (tecla == KeyEvent.VK_Z) {
+        }if (tecla == KeyEvent.VK_Z) {
         	matrixObject.matrix[0][0] = 1.01;
         	matrixObject.matrix[1][1] = 1.01;
-        }  if (tecla == KeyEvent.VK_X) {
+        }if (tecla == KeyEvent.VK_X) {
         	matrixObject.matrix[0][0] = 0.99;
         	matrixObject.matrix[1][1] = 0.99;
-        }  if (tecla == KeyEvent.VK_O) {
+        }if (tecla == KeyEvent.VK_O) {
         	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(90));
         	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(90));
         	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(90));
         	matrixObject.matrix[1][1] = Math.cos(Math.toRadians(90));
-        }  if (tecla == KeyEvent.VK_L) {
+        }if (tecla == KeyEvent.VK_L) {
         	matrixObject.matrix[0][0] = Math.cos(Math.toRadians(-90));
         	matrixObject.matrix[0][1] = -Math.sin(Math.toRadians(-90));
         	matrixObject.matrix[1][0] = Math.sin(Math.toRadians(-90));

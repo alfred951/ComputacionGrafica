@@ -13,7 +13,6 @@ public class Drawer {
     public static final int FRAME_HEIGHT = 800;
     
     public PolygonObject po;
-    public int contador = 0;
     
     public void drawObject(Graphics2D g2d) {
         g2d.setColor(Color.blue);
