@@ -18,7 +18,7 @@ public final class PlayerModel {
 			new Point(175,200)
 	};
 	
-	public static final Edge[] edges = {
+	public final Edge[] edges = {
 			new Edge(points[0],points[1]),
 			new Edge(points[1],points[2]),
 			new Edge(points[2],points[3]),

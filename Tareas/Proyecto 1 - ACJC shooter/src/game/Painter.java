@@ -14,11 +14,8 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 import game.objects.Map;
-import math.Escalation;
 import math.Matrix3x3;
-import math.Rotation;
-import math.Translation;
-import math.Vector3;
+
 import utils.Edge;
 import utils.Point;
 import utils.PolygonObject;
@@ -39,8 +36,10 @@ public class Painter extends JPanel implements KeyListener {
 		width = screenSize.width;
 		height = screenSize.height;
         this.addKeyListener(this);
-        rp = new RedPlayer().po;
-        bp = new BluePlayer().po;
+        RedPlayer redPlayer = new RedPlayer();
+        rp = redPlayer.po;
+        BluePlayer bluePlayer = new BluePlayer();
+        bp = bluePlayer.po;
         map = new Map(height/2,width/2).po;
 	}
     
@@ -58,57 +57,25 @@ public class Painter extends JPanel implements KeyListener {
     }
     
     @Override
-    public synchronized void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
     	pressed.add(e.getKeyCode());
     	double[][] m3 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    	Matrix3x3 matrixObject = new Matrix3x3(m3); 
+    	Matrix3x3 matrixObject = new Matrix3x3(m3);
     	for(int tecla: pressed) {
     		if(tecla == KeyEvent.VK_D) {
-    			Translation trans = new Translation(5, 0);
-                matrixObject.matrix = trans.matrix;
+    			matrixObject = Controller.moveRight(matrixObject);
             }if (tecla == KeyEvent.VK_A) {
-            	Translation trans = new Translation(-5, 0);
-            	matrixObject.matrix = trans.matrix;            	
+            	matrixObject = Controller.moveLeft(matrixObject);
             }if (tecla == KeyEvent.VK_W) {
-            	Translation trans = new Translation(0, 5);
-            	matrixObject.matrix = trans.matrix;
+            	matrixObject = Controller.moveUp(matrixObject);
             }if (tecla == KeyEvent.VK_S) {
-            	Translation trans = new Translation(0, -5);
-            	matrixObject.matrix = trans.matrix;
-            }if (tecla == KeyEvent.VK_Z) {
-            	Escalation escal = new Escalation(1.01, 1.01);
-            	matrixObject.matrix = escal.matrix;
-            }if (tecla == KeyEvent.VK_X) {
-            	Escalation escal = new Escalation(0.99, 0.99);
-            	matrixObject.matrix = escal.matrix;
+            	matrixObject = Controller.moveDown(matrixObject);
             }if (tecla == KeyEvent.VK_O) {
-            	double tempX = rp.getXCenter();
-            	double tempY = rp.getYCenter();
-            	matrixObject.matrix[0][2] = -tempX;         
-            	matrixObject.matrix[1][2] = -tempY;
-            	applyProjection(matrixObject);
-            	matrixObject.setMatrix(); 
-            	Rotation rot = new Rotation(5);
-            	matrixObject.matrix  = rot.matrix;
-            	applyProjection(matrixObject);            
-            	matrixObject.setMatrix(); 
-            	matrixObject.matrix[0][2] = tempX;         
-            	matrixObject.matrix[1][2] = tempY;
+            	matrixObject = Controller.rotateLeft(matrixObject, rp);
             }if (tecla == KeyEvent.VK_L) {
-            	double tempX = rp.getXCenter();
-            	double tempY = rp.getYCenter();
-            	matrixObject.matrix[0][2] = -tempX;         
-            	matrixObject.matrix[1][2] = -tempY;
-            	applyProjection(matrixObject);
-            	matrixObject.setMatrix(); 
-            	Rotation rot = new Rotation(-5);
-            	matrixObject.matrix  = rot.matrix;
-            	applyProjection(matrixObject);            
-            	matrixObject.setMatrix(); 
-            	matrixObject.matrix[0][2] = tempX;         
-            	matrixObject.matrix[1][2] = tempY;	
+            	matrixObject = Controller.rotateRight(matrixObject, rp);
             }
-        	applyProjection(matrixObject);
+        	Controller.applyProjection(matrixObject, rp);
     	}
         
         repaint();
@@ -121,18 +88,6 @@ public class Painter extends JPanel implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-	}
-	
-	public void applyProjection(Matrix3x3 matrixObject) {
-        for(Edge edge: rp.edges) {
-        	Vector3 v1 = edge.p1.pointToVector();
-        	Vector3 v2 = edge.p2.pointToVector();
-        	v1 = matrixObject.times(v1);
-        	v2 = matrixObject.times(v2);
-        	edge.p1 = v1.point;
-        	edge.p2 = v2.point;
-        	System.out.println(edge.p1.toString());
-        }
 	}
 	
     public void drawObject(Graphics2D g2d, PolygonObject po, Color color) {

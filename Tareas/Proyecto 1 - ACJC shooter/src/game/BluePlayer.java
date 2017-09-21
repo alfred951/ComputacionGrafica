@@ -3,7 +3,7 @@ package game;
 public class BluePlayer extends Player{
 
 	public BluePlayer() {
-		System.out.println("Red Player Health" + super.health);
+		System.out.println("Blue Player Health: " + super.health);
 	}
 	
 }
