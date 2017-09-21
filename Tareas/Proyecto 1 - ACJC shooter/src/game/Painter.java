@@ -1,8 +1,11 @@
 package game;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
@@ -22,17 +25,23 @@ import utils.PolygonObject;
 
 public class Painter extends JPanel implements KeyListener {
 	
-	public static final int FRAME_WIDTH = 800;
-    public static final int FRAME_HEIGHT = 800;
+	Dimension screenSize;
+	public static int width;
+    public static int height;
 	private static final long serialVersionUID = 1L;
 	private final Set<Integer> pressed = new HashSet<>();
-	private PolygonObject po;
+	private PolygonObject rp;
+	private PolygonObject bp;
 	private PolygonObject map;
 	
 	public Painter() {
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		width = screenSize.width;
+		height = screenSize.height;
         this.addKeyListener(this);
-        po = new RedPlayer().po;
-        map = new Map().po;
+        rp = new RedPlayer().po;
+        bp = new BluePlayer().po;
+        map = new Map(height/2,width/2).po;
 	}
     
     @Override
@@ -40,9 +49,12 @@ public class Painter extends JPanel implements KeyListener {
         super.paintComponent(g);
         this.setFocusable(true);
         this.requestFocusInWindow();
+        this.setBackground(Color.black);
         Graphics2D g2d = (Graphics2D) g;
-        drawObject(g2d,po,Color.red);
-        drawObject(g2d,map,Color.black);
+        g2d.setStroke(new BasicStroke(10));
+        drawObject(g2d,rp,Color.red);
+        drawObject(g2d,bp,Color.blue);
+        drawObject(g2d,map,Color.white);
     }
     
     @Override
@@ -70,26 +82,26 @@ public class Painter extends JPanel implements KeyListener {
             	Escalation escal = new Escalation(0.99, 0.99);
             	matrixObject.matrix = escal.matrix;
             }if (tecla == KeyEvent.VK_O) {
-            	double tempX = po.getXCenter();
-            	double tempY = po.getYCenter();
+            	double tempX = rp.getXCenter();
+            	double tempY = rp.getYCenter();
             	matrixObject.matrix[0][2] = -tempX;         
             	matrixObject.matrix[1][2] = -tempY;
             	applyProjection(matrixObject);
             	matrixObject.setMatrix(); 
-            	Rotation rot = new Rotation(9);
+            	Rotation rot = new Rotation(5);
             	matrixObject.matrix  = rot.matrix;
             	applyProjection(matrixObject);            
             	matrixObject.setMatrix(); 
             	matrixObject.matrix[0][2] = tempX;         
             	matrixObject.matrix[1][2] = tempY;
             }if (tecla == KeyEvent.VK_L) {
-            	double tempX = po.getXCenter();
-            	double tempY = po.getYCenter();
+            	double tempX = rp.getXCenter();
+            	double tempY = rp.getYCenter();
             	matrixObject.matrix[0][2] = -tempX;         
             	matrixObject.matrix[1][2] = -tempY;
             	applyProjection(matrixObject);
             	matrixObject.setMatrix(); 
-            	Rotation rot = new Rotation(-9);
+            	Rotation rot = new Rotation(-5);
             	matrixObject.matrix  = rot.matrix;
             	applyProjection(matrixObject);            
             	matrixObject.setMatrix(); 
@@ -112,7 +124,7 @@ public class Painter extends JPanel implements KeyListener {
 	}
 	
 	public void applyProjection(Matrix3x3 matrixObject) {
-        for(Edge edge: po.edges) {
+        for(Edge edge: rp.edges) {
         	Vector3 v1 = edge.p1.pointToVector();
         	Vector3 v2 = edge.p2.pointToVector();
         	v1 = matrixObject.times(v1);
@@ -133,10 +145,10 @@ public class Painter extends JPanel implements KeyListener {
     }
     
     public void drawEdge(Graphics2D g2d,Point p0, Point p1) {
-        int x0 = (int) (p0.x + FRAME_WIDTH/2);
-        int y0 = (int) (FRAME_HEIGHT/2 - p0.y) ;
-        int x1 = (int) (p1.x + FRAME_WIDTH/2);
-        int y1 = (int) (FRAME_HEIGHT/2 - p1.y);
+        int x0 = (int) (p0.x + width/2);
+        int y0 = (int) (height/2 - p0.y) ;
+        int x1 = (int) (p1.x + width/2);
+        int y1 = (int) (height/2 - p1.y);
         g2d.drawLine(x0, y0, x1, y1);
     }
 }
