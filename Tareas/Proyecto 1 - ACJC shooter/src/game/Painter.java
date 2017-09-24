@@ -60,22 +60,37 @@ public class Painter extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
     	pressed.add(e.getKeyCode());
     	double[][] m3 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    	Matrix3x3 matrixObject = new Matrix3x3(m3);
+    	Matrix3x3 redPlayerMove = new Matrix3x3(m3);
+    	Matrix3x3 bluePlayerMove = new Matrix3x3(m3);
     	for(int tecla: pressed) {
+    		
     		if(tecla == KeyEvent.VK_D) {
-    			matrixObject = Controller.moveRight(matrixObject);
+    			redPlayerMove = Controller.moveRight(redPlayerMove);
             }if (tecla == KeyEvent.VK_A) {
-            	matrixObject = Controller.moveLeft(matrixObject);
+            	redPlayerMove = Controller.moveLeft(redPlayerMove);
             }if (tecla == KeyEvent.VK_W) {
-            	matrixObject = Controller.moveUp(matrixObject);
+            	redPlayerMove = Controller.moveUp(redPlayerMove);
             }if (tecla == KeyEvent.VK_S) {
-            	matrixObject = Controller.moveDown(matrixObject);
+            	redPlayerMove = Controller.moveDown(redPlayerMove);
             }if (tecla == KeyEvent.VK_O) {
-            	matrixObject = Controller.rotateLeft(matrixObject, rp);
+            	redPlayerMove = Controller.rotateLeft(redPlayerMove, rp);
             }if (tecla == KeyEvent.VK_L) {
-            	matrixObject = Controller.rotateRight(matrixObject, rp);
-            }
-        	Controller.applyProjection(matrixObject, rp);
+            	redPlayerMove = Controller.rotateRight(redPlayerMove, rp);
+            } Controller.applyProjection(redPlayerMove, rp);
+        	
+    		if(tecla == KeyEvent.VK_RIGHT) {
+    			bluePlayerMove = Controller.moveRight(bluePlayerMove);
+            }if (tecla == KeyEvent.VK_LEFT) {
+            	bluePlayerMove = Controller.moveLeft(bluePlayerMove);
+            }if (tecla == KeyEvent.VK_UP) {
+            	bluePlayerMove = Controller.moveUp(bluePlayerMove);
+            }if (tecla == KeyEvent.VK_DOWN) {
+            	bluePlayerMove = Controller.moveDown(bluePlayerMove);
+            }if (tecla == KeyEvent.VK_1) {
+            	bluePlayerMove = Controller.rotateLeft(bluePlayerMove, bp);
+            }if (tecla == KeyEvent.VK_2) {
+            	bluePlayerMove = Controller.rotateRight(bluePlayerMove, bp);
+            } Controller.applyProjection(bluePlayerMove, bp);
     	}
         
         repaint();
