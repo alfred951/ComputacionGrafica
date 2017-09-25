@@ -77,10 +77,10 @@ public class Painter extends JPanel implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 	}
 	
-    public void startAnimation() {
+    public synchronized void startAnimation() {
         SwingWorker<Object, Object> sw = new SwingWorker<Object, Object>() {
             @Override
-            protected Object doInBackground() throws Exception {
+            protected synchronized Object doInBackground() throws Exception {
                 while (true) {
                 	pressed2 = pressed;
                 	for(int tecla: pressed2) {
@@ -130,7 +130,7 @@ public class Painter extends JPanel implements KeyListener {
                     	}
                     }
                     repaint();
-                    Thread.sleep(50);
+                    Thread.sleep(10);
                 }
             }
         };
