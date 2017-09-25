@@ -158,12 +158,6 @@ public class Controller {
 	
 	public void applyProjection(Matrix3x3 transformation) {	
         for(Edge edge: player.po.edges) {
-        	
-        	System.out.println("max x:" + player.max.x);
-        	System.out.println("min x:" + player.min.x);
-        	System.out.println("max y:" + player.max.y);
-        	System.out.println("min y:" + player.min.y);
-        	
         	Vector3 v1 = edge.p1.pointToVector();
         	Vector3 v2 = edge.p2.pointToVector();
         	v1 = transformation.times(v1);
@@ -171,11 +165,6 @@ public class Controller {
         	edge.p1 = v1.point;
         	edge.p2 = v2.point;
         	updateBoundaries();
-        	
-        	System.out.println("new max x:" + player.max.x);
-        	System.out.println("new min x:" + player.min.x);
-        	System.out.println("new max y:" + player.max.y);
-        	System.out.println("new min y:" + player.min.y);
         }
         Vector3 v1 = player.cannon.pointToVector();
         v1 = transformation.times(v1);

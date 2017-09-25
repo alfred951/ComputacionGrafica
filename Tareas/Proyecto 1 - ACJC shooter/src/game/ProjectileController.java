@@ -13,7 +13,7 @@ public class ProjectileController {
 	
 	public ProjectileController(Projectile projectile) {
 		this.projectile = projectile;
-		this.speed = 1.5d;
+		this.speed = 6d;
 	}
 	
 	public void moveForward() {

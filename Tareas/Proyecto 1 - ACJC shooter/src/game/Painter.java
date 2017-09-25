@@ -26,7 +26,8 @@ public class Painter extends JPanel implements KeyListener {
 	public static int width;
     public static int height;
 	private static final long serialVersionUID = 1L;
-	private final Set<Integer> pressed = new HashSet<>();
+	private Set<Integer> pressed = new HashSet<>();
+	private Set<Integer> pressed2 = new HashSet<>();
 	private Player redPlayer;
 	private Player bluePlayer;
 	private PolygonObject map;
@@ -65,43 +66,6 @@ public class Painter extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
     	pressed.add(e.getKeyCode());
-    	
-    	for(int tecla: pressed) {
-    		
-    		if(!redPlayer.destroyed) {
-	    		if(tecla == KeyEvent.VK_D) {
-	    			redPlayer.controller.rotateRight();
-	            }if (tecla == KeyEvent.VK_A) {
-	            	redPlayer.controller.rotateLeft();
-	            }if (tecla == KeyEvent.VK_W) {
-	            	redPlayer.controller.moveForward();
-	            }if (tecla == KeyEvent.VK_S) {
-	            	redPlayer.controller.moveBackward();
-	            }if (tecla == KeyEvent.VK_SPACE) {
-	            	redPlayer.fireProjectile();
-	            }if (tecla == KeyEvent.VK_1) {
-	            	redPlayer.takeDamage();
-	            }
-    		}
-            
-    		if(!bluePlayer.destroyed) {
-	    		if(tecla == KeyEvent.VK_RIGHT) {
-	    			bluePlayer.controller.rotateRight();
-	            }if (tecla == KeyEvent.VK_LEFT) {
-	            	bluePlayer.controller.rotateLeft();
-	            }if (tecla == KeyEvent.VK_UP) {
-	            	bluePlayer.controller.moveForward();
-	            }if (tecla == KeyEvent.VK_DOWN) {
-	            	bluePlayer.controller.moveBackward();
-	            }if (tecla == KeyEvent.VK_ENTER) {
-	            	bluePlayer.fireProjectile();
-	            }if (tecla == KeyEvent.VK_2) {
-	            	bluePlayer.takeDamage();
-	            }
-    		}
-            
-    	}
-        repaint();
     }	
 	
 	@Override
@@ -118,6 +82,37 @@ public class Painter extends JPanel implements KeyListener {
             @Override
             protected Object doInBackground() throws Exception {
                 while (true) {
+                	pressed2 = pressed;
+                	for(int tecla: pressed2) {
+                		if(!redPlayer.destroyed) {
+            	    		if(tecla == KeyEvent.VK_D) {
+            	    			redPlayer.controller.rotateRight();
+            	            }if (tecla == KeyEvent.VK_A) {
+            	            	redPlayer.controller.rotateLeft();
+            	            }if (tecla == KeyEvent.VK_W) {
+            	            	redPlayer.controller.moveForward();
+            	            }if (tecla == KeyEvent.VK_S) {
+            	            	redPlayer.controller.moveBackward();
+            	            }if (tecla == KeyEvent.VK_SPACE) {
+            	            	redPlayer.fireProjectile();
+            	            }
+                		}
+                        
+                		if(!bluePlayer.destroyed) {
+            	    		if(tecla == KeyEvent.VK_RIGHT) {
+            	    			bluePlayer.controller.rotateRight();
+            	            }if (tecla == KeyEvent.VK_LEFT) {
+            	            	bluePlayer.controller.rotateLeft();
+            	            }if (tecla == KeyEvent.VK_UP) {
+            	            	bluePlayer.controller.moveForward();
+            	            }if (tecla == KeyEvent.VK_DOWN) {
+            	            	bluePlayer.controller.moveBackward();
+            	            }if (tecla == KeyEvent.VK_ENTER) {
+            	            	bluePlayer.fireProjectile();
+            	            }
+                		}
+                        
+                	}
                 	for(Projectile projectile : redPlayer.projectiles) {
                     	projectile.controller.moveForward();
                     	if(!projectile.neutralized && bluePlayer.isHit(projectile.model)) {
@@ -135,7 +130,7 @@ public class Painter extends JPanel implements KeyListener {
                     	}
                     }
                     repaint();
-                    Thread.sleep(10);
+                    Thread.sleep(50);
                 }
             }
         };

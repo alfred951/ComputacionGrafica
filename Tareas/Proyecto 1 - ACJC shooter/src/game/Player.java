@@ -33,7 +33,7 @@ public class Player {
 		this.projectiles = new ArrayList<>();
 		this.destroyed = false;
 		this.invisible = false;
-		this.cooldown = System.currentTimeMillis();
+		this.cooldown = (long) -1000;
 	}
 	
 	public void fireProjectile() {
