@@ -8,14 +8,14 @@ public final class PlayerModel {
 
 	public final PolygonObject model;
 	public static final Point[] points = {
-			new Point(100,100),
-			new Point(100,200),
-			new Point(200,200),
-			new Point(200,100),
-			new Point(125,200),
-			new Point(125,250),
-			new Point(175,250),
-			new Point(175,200)
+			new Point(-50,-50),
+			new Point(-50,50),
+			new Point(50,50),
+			new Point(50,-50),
+			new Point(-25,50),
+			new Point(-25,100),
+			new Point(25,100),
+			new Point(25,50)
 	};
 	
 	public final Edge[] edges = {

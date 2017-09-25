@@ -12,10 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import game.objects.Map;
-import math.Matrix3x3;
-
+import game.objects.Projectile;
 import utils.Edge;
 import utils.Point;
 import utils.PolygonObject;
@@ -27,8 +27,8 @@ public class Painter extends JPanel implements KeyListener {
     public static int height;
 	private static final long serialVersionUID = 1L;
 	private final Set<Integer> pressed = new HashSet<>();
-	private PolygonObject rp;
-	private PolygonObject bp;
+	private Player redPlayer;
+	private Player bluePlayer;
 	private PolygonObject map;
 	
 	public Painter() {
@@ -36,10 +36,8 @@ public class Painter extends JPanel implements KeyListener {
 		width = screenSize.width;
 		height = screenSize.height;
         this.addKeyListener(this);
-        RedPlayer redPlayer = new RedPlayer();
-        rp = redPlayer.po;
-        BluePlayer bluePlayer = new BluePlayer();
-        bp = bluePlayer.po;
+        redPlayer = new RedPlayer();
+        bluePlayer = new BluePlayer();
         map = new Map(height/2,width/2).po;
 	}
     
@@ -51,48 +49,58 @@ public class Painter extends JPanel implements KeyListener {
         this.setBackground(Color.black);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(10));
-        drawObject(g2d,rp,Color.red);
-        drawObject(g2d,bp,Color.blue);
+        drawObject(g2d,redPlayer.po,Color.red);
+        drawObject(g2d,bluePlayer.po,Color.blue);
+        for(Projectile proyectile : redPlayer.projectiles) {
+        	drawObject(g2d,proyectile.model,Color.red);
+        }
+        for(Projectile proyectile : bluePlayer.projectiles) {
+        	drawObject(g2d,proyectile.model,Color.blue);
+        }
         drawObject(g2d,map,Color.white);
+        if(redPlayer.destroyed) drawObject(g2d,map,Color.blue);
+        if(bluePlayer.destroyed) drawObject(g2d,map,Color.red);
     }
     
     @Override
     public void keyPressed(KeyEvent e) {
     	pressed.add(e.getKeyCode());
-    	double[][] m3 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    	Matrix3x3 redPlayerMove = new Matrix3x3(m3);
-    	Matrix3x3 bluePlayerMove = new Matrix3x3(m3);
+    	
     	for(int tecla: pressed) {
     		
-    		if(tecla == KeyEvent.VK_D) {
-    			redPlayerMove = Controller.moveRight(redPlayerMove);
-            }if (tecla == KeyEvent.VK_A) {
-            	redPlayerMove = Controller.moveLeft(redPlayerMove);
-            }if (tecla == KeyEvent.VK_W) {
-            	redPlayerMove = Controller.moveUp(redPlayerMove);
-            }if (tecla == KeyEvent.VK_S) {
-            	redPlayerMove = Controller.moveDown(redPlayerMove);
-            }if (tecla == KeyEvent.VK_O) {
-            	redPlayerMove = Controller.rotateLeft(redPlayerMove, rp);
-            }if (tecla == KeyEvent.VK_L) {
-            	redPlayerMove = Controller.rotateRight(redPlayerMove, rp);
-            } Controller.applyProjection(redPlayerMove, rp);
-        	
-    		if(tecla == KeyEvent.VK_RIGHT) {
-    			bluePlayerMove = Controller.moveRight(bluePlayerMove);
-            }if (tecla == KeyEvent.VK_LEFT) {
-            	bluePlayerMove = Controller.moveLeft(bluePlayerMove);
-            }if (tecla == KeyEvent.VK_UP) {
-            	bluePlayerMove = Controller.moveUp(bluePlayerMove);
-            }if (tecla == KeyEvent.VK_DOWN) {
-            	bluePlayerMove = Controller.moveDown(bluePlayerMove);
-            }if (tecla == KeyEvent.VK_1) {
-            	bluePlayerMove = Controller.rotateLeft(bluePlayerMove, bp);
-            }if (tecla == KeyEvent.VK_2) {
-            	bluePlayerMove = Controller.rotateRight(bluePlayerMove, bp);
-            } Controller.applyProjection(bluePlayerMove, bp);
+    		if(!redPlayer.destroyed) {
+	    		if(tecla == KeyEvent.VK_D) {
+	    			redPlayer.controller.rotateRight();
+	            }if (tecla == KeyEvent.VK_A) {
+	            	redPlayer.controller.rotateLeft();
+	            }if (tecla == KeyEvent.VK_W) {
+	            	redPlayer.controller.moveForward();
+	            }if (tecla == KeyEvent.VK_S) {
+	            	redPlayer.controller.moveBackward();
+	            }if (tecla == KeyEvent.VK_SPACE) {
+	            	redPlayer.fireProjectile();
+	            }if (tecla == KeyEvent.VK_1) {
+	            	redPlayer.takeDamage();
+	            }
+    		}
+            
+    		if(!bluePlayer.destroyed) {
+	    		if(tecla == KeyEvent.VK_RIGHT) {
+	    			bluePlayer.controller.rotateRight();
+	            }if (tecla == KeyEvent.VK_LEFT) {
+	            	bluePlayer.controller.rotateLeft();
+	            }if (tecla == KeyEvent.VK_UP) {
+	            	bluePlayer.controller.moveForward();
+	            }if (tecla == KeyEvent.VK_DOWN) {
+	            	bluePlayer.controller.moveBackward();
+	            }if (tecla == KeyEvent.VK_ENTER) {
+	            	bluePlayer.fireProjectile();
+	            }if (tecla == KeyEvent.VK_2) {
+	            	bluePlayer.takeDamage();
+	            }
+    		}
+            
     	}
-        
         repaint();
     }	
 	
@@ -104,6 +112,36 @@ public class Painter extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
+	
+    public void startAnimation() {
+        SwingWorker<Object, Object> sw = new SwingWorker<Object, Object>() {
+            @Override
+            protected Object doInBackground() throws Exception {
+                while (true) {
+                	for(Projectile projectile : redPlayer.projectiles) {
+                    	projectile.controller.moveForward();
+                    	if(!projectile.neutralized && bluePlayer.isHit(projectile.model)) {
+                    		bluePlayer.takeDamage();
+                    		System.out.println("Blue Player Health:" + bluePlayer.health);
+                    		projectile.neutralize();
+                    	}
+                    }
+                    for(Projectile projectile : bluePlayer.projectiles) {
+                    	projectile.controller.moveForward();
+                    	if(!projectile.neutralized && redPlayer.isHit(projectile.model)) {
+                    		redPlayer.takeDamage();
+                    		System.out.println("red Player Health:" + bluePlayer.health);
+                    		projectile.neutralize();
+                    	}
+                    }
+                    repaint();
+                    Thread.sleep(10);
+                }
+            }
+        };
+
+        sw.execute();
+    }
 	
     public void drawObject(Graphics2D g2d, PolygonObject po, Color color) {
         g2d.setColor(color);
@@ -121,6 +159,7 @@ public class Painter extends JPanel implements KeyListener {
         int y1 = (int) (height/2 - p1.y);
         g2d.drawLine(x0, y0, x1, y1);
     }
+    
 }
 
 

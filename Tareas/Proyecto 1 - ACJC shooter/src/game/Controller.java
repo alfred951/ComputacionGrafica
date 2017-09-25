@@ -5,74 +5,197 @@ import math.Rotation;
 import math.Translation;
 import math.Vector3;
 import utils.Edge;
-import utils.PolygonObject;
 
 public class Controller {
 	
-	public static Matrix3x3 moveRight(Matrix3x3 matrixObject) {
+	public Player player;
+	public double speed;
+	
+	public Controller(Player assingedPlayer) {
+		this.player = assingedPlayer;
+		speed = 4d;
+	}
+	
+	public void moveForward() {
+		Matrix3x3 transformation = new Matrix3x3();
+		double directionX = Math.cos(Math.toRadians(player.direction))*speed;
+		double directionY = Math.sin(Math.toRadians(player.direction))*speed;
+		Translation trans = new Translation(directionX, directionY);
+        transformation.matrix = trans.matrix;
+        applyProjection(transformation); 
+	}
+	
+	public void moveBackward() {
+		Matrix3x3 transformation = new Matrix3x3();
+		double directionX = -Math.cos(Math.toRadians(player.direction))*speed;
+		double directionY = -Math.sin(Math.toRadians(player.direction))*speed;
+		Translation trans = new Translation(directionX, directionY);
+        transformation.matrix = trans.matrix;
+        applyProjection(transformation); 
+	}
+	
+	public void moveRight() {
+		Matrix3x3 transformation = new Matrix3x3();
 		Translation trans = new Translation(5, 0);
-        matrixObject.matrix = trans.matrix;
-        return matrixObject;
+        transformation.matrix = trans.matrix;
+        applyProjection(transformation); 
 	}
 	
-	public static Matrix3x3 moveLeft(Matrix3x3 matrixObject) {
+	public void moveRight(int distance) {
+		Matrix3x3 transformation = new Matrix3x3();
+		Translation trans = new Translation(distance, 0);
+        transformation.matrix = trans.matrix;
+        applyProjection(transformation); 
+	}
+	
+	public void moveLeft() {
+		Matrix3x3 transformation = new Matrix3x3();
 		Translation trans = new Translation(-5, 0);
-    	matrixObject.matrix = trans.matrix;
-    	return matrixObject;
+    	transformation.matrix = trans.matrix;
+    	applyProjection(transformation); 
 	}
 	
-	public static Matrix3x3 moveUp(Matrix3x3 matrixObject) {
+	public void moveLeft(int distance) {
+		Matrix3x3 transformation = new Matrix3x3();
+		Translation trans = new Translation(-distance, 0);
+    	transformation.matrix = trans.matrix;
+    	applyProjection(transformation); 
+	}
+	
+	public void moveUp() {
+		Matrix3x3 transformation = new Matrix3x3();
 		Translation trans = new Translation(0, 5);
-    	matrixObject.matrix = trans.matrix;
-    	return matrixObject;
+    	transformation.matrix = trans.matrix;
+    	applyProjection(transformation); 
 	}
 	
-	public static Matrix3x3 moveDown(Matrix3x3 matrixObject) {
+	public void moveDown() {
+		Matrix3x3 transformation = new Matrix3x3();
 		Translation trans = new Translation(0, -5);
-    	matrixObject.matrix = trans.matrix;
-    	return matrixObject;
+    	transformation.matrix = trans.matrix;
+    	applyProjection(transformation); 
 	}
 	
-	public static Matrix3x3 rotateLeft(Matrix3x3 matrixObject, PolygonObject po) {
-		double tempX = po.getXCenter();
-    	double tempY = po.getYCenter();
-    	matrixObject.matrix[0][2] = -tempX;         
-    	matrixObject.matrix[1][2] = -tempY;
-    	applyProjection(matrixObject, po);
-    	matrixObject.setMatrix(); 
+	public void rotateLeft() {
+		Matrix3x3 transformation = new Matrix3x3();
+		double tempX = player.po.getXCenter();
+    	double tempY = player.po.getYCenter();
+    	transformation.matrix[0][2] = -tempX;         
+    	transformation.matrix[1][2] = -tempY;
+    	player.invisible = true;
+    	applyProjection(transformation);
+    	transformation.setMatrix(); 
     	Rotation rot = new Rotation(5);
-    	matrixObject.matrix  = rot.matrix;
-    	applyProjection(matrixObject, po);            
-    	matrixObject.setMatrix(); 
-    	matrixObject.matrix[0][2] = tempX;         
-    	matrixObject.matrix[1][2] = tempY;
-    	return matrixObject;
+    	player.direction += 5;
+    	transformation.matrix  = rot.matrix;
+    	applyProjection(transformation);            
+    	transformation.setMatrix(); 
+    	transformation.matrix[0][2] = tempX;         
+    	transformation.matrix[1][2] = tempY;
+    	applyProjection(transformation); 
+    	player.invisible = false;
 	}
 	
-	public static Matrix3x3 rotateRight(Matrix3x3 matrixObject, PolygonObject po) {
-		double tempX = po.getXCenter();
-    	double tempY = po.getYCenter();
-    	matrixObject.matrix[0][2] = -tempX;         
-    	matrixObject.matrix[1][2] = -tempY;
-    	applyProjection(matrixObject, po);
-    	matrixObject.setMatrix(); 
+	public void rotateLeft(int degree) {
+		Matrix3x3 transformation = new Matrix3x3();
+		double tempX = player.po.getXCenter();
+    	double tempY = player.po.getYCenter();
+    	transformation.matrix[0][2] = -tempX;         
+    	transformation.matrix[1][2] = -tempY;
+    	player.invisible = true;
+    	applyProjection(transformation);
+    	transformation.setMatrix(); 
+    	Rotation rot = new Rotation(degree);
+    	player.direction += degree;
+    	transformation.matrix  = rot.matrix;
+    	applyProjection(transformation);            
+    	transformation.setMatrix(); 
+    	transformation.matrix[0][2] = tempX;         
+    	transformation.matrix[1][2] = tempY;
+    	applyProjection(transformation); 
+    	player.invisible = false;
+	}
+	
+	public void rotateRight() {
+		Matrix3x3 transformation = new Matrix3x3();
+		double tempX = player.po.getXCenter();
+    	double tempY = player.po.getYCenter();
+    	transformation.matrix[0][2] = -tempX;         
+    	transformation.matrix[1][2] = -tempY;
+    	player.invisible = true;
+    	applyProjection(transformation);
+    	transformation.setMatrix(); 
     	Rotation rot = new Rotation(-5);
-    	matrixObject.matrix  = rot.matrix;
-    	applyProjection(matrixObject, po);            
-    	matrixObject.setMatrix(); 
-    	matrixObject.matrix[0][2] = tempX;         
-    	matrixObject.matrix[1][2] = tempY;
-    	return matrixObject;
+    	player.direction -= 5;
+    	transformation.matrix  = rot.matrix;
+    	applyProjection(transformation);            
+    	transformation.setMatrix(); 
+    	transformation.matrix[0][2] = tempX;         
+    	transformation.matrix[1][2] = tempY;
+    	applyProjection(transformation); 
+    	player.invisible = false;
 	}
 	
-	public static void applyProjection(Matrix3x3 matrixObject, PolygonObject po) {	
-        for(Edge edge: po.edges) {
+	public void rotateRight(int degree) {
+		Matrix3x3 transformation = new Matrix3x3();
+		double tempX = player.po.getXCenter();
+    	double tempY = player.po.getYCenter();
+    	transformation.matrix[0][2] = -tempX;         
+    	transformation.matrix[1][2] = -tempY;
+    	player.invisible = true;
+    	applyProjection(transformation);
+    	transformation.setMatrix(); 
+    	Rotation rot = new Rotation(-degree);
+    	player.direction -= degree;
+    	transformation.matrix  = rot.matrix;
+    	applyProjection(transformation);    
+    	transformation.setMatrix(); 
+    	transformation.matrix[0][2] = tempX;         
+    	transformation.matrix[1][2] = tempY;
+    	applyProjection(transformation); 
+    	player.invisible = false;
+	}
+	
+	public void applyProjection(Matrix3x3 transformation) {	
+        for(Edge edge: player.po.edges) {
+        	
+        	System.out.println("max x:" + player.max.x);
+        	System.out.println("min x:" + player.min.x);
+        	System.out.println("max y:" + player.max.y);
+        	System.out.println("min y:" + player.min.y);
+        	
         	Vector3 v1 = edge.p1.pointToVector();
         	Vector3 v2 = edge.p2.pointToVector();
-        	v1 = matrixObject.times(v1);
-        	v2 = matrixObject.times(v2);
+        	v1 = transformation.times(v1);
+        	v2 = transformation.times(v2);
         	edge.p1 = v1.point;
         	edge.p2 = v2.point;
+        	updateBoundaries();
+        	
+        	System.out.println("new max x:" + player.max.x);
+        	System.out.println("new min x:" + player.min.x);
+        	System.out.println("new max y:" + player.max.y);
+        	System.out.println("new min y:" + player.min.y);
+        }
+        Vector3 v1 = player.cannon.pointToVector();
+        v1 = transformation.times(v1);
+        player.cannon = v1.point;
+	}
+	
+	public void updateBoundaries() {
+		player.max.x = -9999;
+		player.min.x = 9999;
+		player.max.y = -9999;
+		player.min.y = 9999;
+		for(Edge edge: player.po.edges) {
+        	if(edge.p1.x > player.max.x) player.max.x = edge.p1.x;
+        	if(edge.p2.x > player.max.x) player.max.x = edge.p2.x;
+        	if(edge.p1.x < player.min.x) player.min.x = edge.p1.x;
+        	if(edge.p2.x < player.min.x) player.min.x = edge.p2.x;
+        	if(edge.p1.y > player.max.y) player.max.y = edge.p1.y;
+        	if(edge.p2.y > player.max.y) player.max.y = edge.p2.y;
+        	if(edge.p1.y < player.min.y) player.min.y = edge.p1.y;
+        	if(edge.p2.y < player.min.y) player.min.y = edge.p2.y;
         }
 	}
 }
